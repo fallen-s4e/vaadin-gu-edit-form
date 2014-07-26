@@ -1,7 +1,7 @@
 package uk.co.innoforce.component.editors;
 
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
+import uk.co.innoforce.component.IComponent;
 
 import java.math.BigDecimal;
 
@@ -9,8 +9,19 @@ import java.math.BigDecimal;
  * @author magzhan.karasayev
  * @since 7/25/14 6:30 PM
  */
-public class VaadinBigDecimalEditor extends VaadinAbstractEditor<BigDecimal> {
+public class VaadinBigDecimalEditor extends TextField implements IComponent<BigDecimal> {
+
     public VaadinBigDecimalEditor() {
-        addComponent(new Label("Stub", ContentMode.HTML));
+
+    }
+
+    @Override
+    public BigDecimal getV() {
+        return null;
+    }
+
+    @Override
+    public void setV(BigDecimal bigDecimal) {
+
     }
 }

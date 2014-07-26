@@ -12,12 +12,12 @@ public class VaadinAbstractEditor<T> extends VerticalLayout implements IComponen
 
     private T value;
     @Override
-    public T getValue() {
+    public T getV() {
         return value;
     }
 
     @Override
-    public void setValue(T value) {
+    public void setV(T value) {
         this.value = value;
     }
 }

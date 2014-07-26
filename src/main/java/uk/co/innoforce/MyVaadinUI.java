@@ -4,11 +4,9 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import uk.co.innoforce.component.editors.VaadinStringEditor;
 
 import javax.servlet.annotation.WebServlet;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -33,19 +31,12 @@ public class MyVaadinUI extends UI
         XMLGregorianCalendar dateTime = null;
         BigDecimal bd = null;
         BigInteger integer = null;
-        String string = null;
 
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         setContent(layout);
         
-        Button button = new Button("Click Me");
-        button.addClickListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label("Thank you for clicking1"));
-            }
-        });
-        layout.addComponent(button);
+        layout.addComponent(new VaadinStringEditor());
     }
 
 }

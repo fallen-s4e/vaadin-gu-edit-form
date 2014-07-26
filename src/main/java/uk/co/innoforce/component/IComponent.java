@@ -8,6 +8,6 @@ package uk.co.innoforce.component;
  * @since 7/25/14 5:16 PM
  */
 public interface IComponent<T> {
-    public T getValue();
-    public void setValue(T t);
+    public T getV();
+    public void setV(T t);
 }
