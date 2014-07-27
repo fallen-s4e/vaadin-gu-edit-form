@@ -10,6 +10,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import uk.co.innoforce.component.IComponent;
 import uk.co.innoforce.component.IVaadinComponent;
+import uk.co.innoforce.component.editors.VaadinBigDecimalEditor;
 import uk.co.innoforce.component.editors.VaadinStringEditor;
 
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,7 @@ public class MyVaadinUI extends UI
         layout.addComponent(new VaadinStringEditor());
 
         //---------------------------------------------------------------------------
-        final IVaadinComponent tf = new VaadinStringEditor();
+        final IVaadinComponent tf = new VaadinBigDecimalEditor();
 
         // And bind the field
         layout.addComponent(tf);

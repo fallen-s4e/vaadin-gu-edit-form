@@ -1,6 +1,5 @@
 package uk.co.innoforce.component.editors;
 
-import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.converter.StringToBigDecimalConverter;
 import com.vaadin.ui.TextField;
 import uk.co.innoforce.component.IVaadinComponent;
@@ -15,9 +14,6 @@ import java.util.Locale;
 public class VaadinBigDecimalEditor extends TextField implements IVaadinComponent<BigDecimal> {
 
     public VaadinBigDecimalEditor() {
-        final ObjectProperty<BigDecimal> property =
-                new ObjectProperty<BigDecimal>(new BigDecimal(42));
-
         setConverter(new StringToBigDecimalConverter(){
             @Override
             public String convertToPresentation(BigDecimal value, Class<? extends String> targetType, Locale locale) throws ConversionException {
@@ -25,8 +21,6 @@ public class VaadinBigDecimalEditor extends TextField implements IVaadinComponen
             }
         });
         setConversionError("Could not convert value to {0}");
-
-        setPropertyDataSource(property);
     }
 
     @Override
