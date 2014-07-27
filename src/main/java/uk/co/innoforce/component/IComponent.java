@@ -8,6 +8,12 @@ package uk.co.innoforce.component;
  * @since 7/25/14 5:16 PM
  */
 public interface IComponent<T> {
-    public T getV();
+    public T getV() throws MalformedInputException;
     public void setV(T t);
+
+    public static class MalformedInputException extends Exception {
+        public MalformedInputException(Exception e) {
+            super(e);
+        }
+    }
 }
