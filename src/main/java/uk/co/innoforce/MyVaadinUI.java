@@ -10,7 +10,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import uk.co.innoforce.component.IComponent;
 import uk.co.innoforce.component.IVaadinComponent;
-import uk.co.innoforce.component.editors.VaadinBigIntegerEditor;
+import uk.co.innoforce.component.editors.VaadinDateTimeEditor;
 import uk.co.innoforce.component.editors.VaadinStringEditor;
 
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +44,7 @@ public class MyVaadinUI extends UI
         layout.addComponent(new VaadinStringEditor());
 
         //---------------------------------------------------------------------------
-        final IVaadinComponent tf = new VaadinBigIntegerEditor();
+        final IVaadinComponent tf = new VaadinDateTimeEditor();
 
         // And bind the field
         layout.addComponent(tf);
