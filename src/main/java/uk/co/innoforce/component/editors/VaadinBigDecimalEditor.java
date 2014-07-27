@@ -3,7 +3,7 @@ package uk.co.innoforce.component.editors;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.data.util.converter.StringToBigDecimalConverter;
 import com.vaadin.ui.TextField;
-import uk.co.innoforce.component.IComponent;
+import uk.co.innoforce.component.IVaadinComponent;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -12,7 +12,7 @@ import java.util.Locale;
  * @author magzhan.karasayev
  * @since 7/25/14 6:30 PM
  */
-public class VaadinBigDecimalEditor extends TextField implements IComponent<BigDecimal> {
+public class VaadinBigDecimalEditor extends TextField implements IVaadinComponent<BigDecimal> {
 
     public VaadinBigDecimalEditor() {
         final ObjectProperty<BigDecimal> property =

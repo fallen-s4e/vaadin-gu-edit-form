@@ -9,6 +9,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import uk.co.innoforce.component.IComponent;
+import uk.co.innoforce.component.IVaadinComponent;
 import uk.co.innoforce.component.editors.VaadinStringEditor;
 
 import javax.servlet.annotation.WebServlet;
@@ -29,11 +30,6 @@ public class MyVaadinUI extends UI
 
     @Override
     protected void init(VaadinRequest request) {
-        myInit(new VaadinStringEditor());
-
-    }
-
-    private <T extends com.vaadin.ui.AbstractComponent & IComponent> void myInit(final T tf) {
         // types:
         Date date = null;
         XMLGregorianCalendar dateTime = null;
@@ -47,6 +43,8 @@ public class MyVaadinUI extends UI
         layout.addComponent(new VaadinStringEditor());
 
         //---------------------------------------------------------------------------
+        final IVaadinComponent tf = new VaadinStringEditor();
+
         // And bind the field
         layout.addComponent(tf);
         //---------------------------------------------------------------------------
@@ -66,6 +64,7 @@ public class MyVaadinUI extends UI
         });
         layout.addComponent(button);
         layout.addComponent(label);
+
     }
 
 }
