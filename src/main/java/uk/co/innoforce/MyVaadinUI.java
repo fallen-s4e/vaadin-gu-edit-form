@@ -10,11 +10,9 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import uk.co.innoforce.component.IComponent;
 import uk.co.innoforce.component.IVaadinComponent;
-import uk.co.innoforce.component.editors.VaadinEnumerationEditor;
+import uk.co.innoforce.component.PopupCombobox;
 import uk.co.innoforce.component.editors.VaadinStringEditor;
-import uk.co.innoforce.model.DecimalSimpleValue;
-import uk.co.innoforce.model.EnumerationType;
-import uk.co.innoforce.model.EnumerationValue;
+import uk.co.innoforce.model.ConcreteReferenceItem;
 
 import javax.servlet.annotation.WebServlet;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -47,17 +45,13 @@ public class MyVaadinUI extends UI
         layout.addComponent(new VaadinStringEditor());
 
         //---------------------------------------------------------------------------
-        final IVaadinComponent tf = new VaadinEnumerationEditor(new EnumerationValue(){{
-            EnumerationType et1 = new EnumerationType();
-            et1.setName("name1");
-            et1.setValue(new DecimalSimpleValue(){{ setValue(new BigDecimal(1));}});
-            getEnum().add(et1);
 
-            EnumerationType et2 = new EnumerationType();
-            et2.setName("name2");
-            et2.setValue(new DecimalSimpleValue(){{ setValue(new BigDecimal(2));}});
-            getEnum().add(et2);
-        }});
+        final int n = 25;
+        ConcreteReferenceItem[] items = new ConcreteReferenceItem[n];
+        for (int i = 0; i < items.length; i++) {
+            items[i] = new ConcreteReferenceItem("name" + i, "value" + i);
+        }
+        final IVaadinComponent tf = new PopupCombobox(items);
 
         // And bind the field
         layout.addComponent(tf);
