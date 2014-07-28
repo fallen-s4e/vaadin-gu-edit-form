@@ -28,7 +28,7 @@ public class VaadinReferenceItemPicker<RI extends IReferenceItem> extends PopupC
     }
 
     @Override
-    protected String getCaption(RI item) {
+    protected String getDisplayName(RI item) {
         return item.getDisplayName();
     }
 }

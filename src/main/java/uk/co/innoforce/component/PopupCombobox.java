@@ -3,6 +3,7 @@ package uk.co.innoforce.component;
 import com.vaadin.data.Property;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,19 +15,19 @@ import java.util.List;
  */
 public abstract class PopupCombobox<T> extends HorizontalLayout implements IVaadinComponent<T> {
     private List<T> referenceItems;
-    private Label selectedItemLabel = new Label("");
+    private TextField selectedItemTextField = new TextField();
     private Table table;
 
     /** this method supposed to add ContainerProperties and add items to table */
     protected abstract void fillTable(Table table, List<T> items);
     /** returns caption of to be displayed in the interface */
-    protected abstract String getCaption(T item);
+    protected abstract String getDisplayName(T item);
 
     public PopupCombobox(final String windowCaption, T... items) {
         referenceItems = new ArrayList<T>(Arrays.asList(items));
 
-        // selectedItemLabel
-        addComponent(selectedItemLabel);
+        // selectedItemTextField
+        addComponent(selectedItemTextField);
 
         // button
         Button button = new Button();
@@ -76,24 +77,25 @@ public abstract class PopupCombobox<T> extends HorizontalLayout implements IVaad
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 subWindow.close();
-                selectedItemLabel.setCaption(getCaption((T) table.getValue()));
+                setV((T) table.getValue());
             }
         });
         return table;
     }
 
-    public void setSelectedItem(T selectedItem) {
-        selectedItemLabel.setCaption(table.getValue() == null ? "" : getCaption((T) table.getValue()));
-    }
-
     @Override
     public T getV() throws MalformedInputException {
-        return (T) table.getValue();
+        for (T item : referenceItems) {
+            if (StringUtils.isNotBlank(getDisplayName(item)) &&
+                    getDisplayName(item).equals(selectedItemTextField.getValue())) {
+                return item;
+            }
+        }
+        return null;
     }
 
     @Override
     public void setV(T item) {
-        table.setValue(item);
-        selectedItemLabel.setCaption(getCaption(item));
+        selectedItemTextField.setValue(getDisplayName(item));
     }
 }
