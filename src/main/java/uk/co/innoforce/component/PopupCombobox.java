@@ -3,7 +3,6 @@ package uk.co.innoforce.component;
 import com.vaadin.data.Property;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
-import uk.co.innoforce.model.IReferenceItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,13 +12,18 @@ import java.util.List;
  * @author fallen
  * @since 7/28/14 3:54 PM
  */
-public class PopupCombobox<RI extends IReferenceItem> extends HorizontalLayout implements IVaadinComponent<RI> {
-    private List<RI> referenceItems;
+public abstract class PopupCombobox<T> extends HorizontalLayout implements IVaadinComponent<T> {
+    private List<T> referenceItems;
     private Label selectedItemLabel = new Label("");
     private Table table;
 
-    public PopupCombobox(RI ... items) {
-        referenceItems = new ArrayList<RI>(Arrays.asList(items));
+    /** this method supposed to add ContainerProperties and add items to table */
+    protected abstract void fillTable(Table table, List<T> items);
+    /** returns caption of to be displayed in the interface */
+    protected abstract String getCaption(T item);
+
+    public PopupCombobox(final String windowCaption, T... items) {
+        referenceItems = new ArrayList<T>(Arrays.asList(items));
 
         // selectedItemLabel
         addComponent(selectedItemLabel);
@@ -32,7 +36,7 @@ public class PopupCombobox<RI extends IReferenceItem> extends HorizontalLayout i
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                getUI().addWindow(createSubWindow());
+                getUI().addWindow(createSubWindow(windowCaption));
             }
         });
     }
@@ -40,9 +44,10 @@ public class PopupCombobox<RI extends IReferenceItem> extends HorizontalLayout i
     /**
      * creates a new Windows and reinitialize table inside this method
      * @return
+     * @param windowCaption
      */
-    private Window createSubWindow() {
-        Window subWindow = new Window("Ref data selector table");
+    private Window createSubWindow(String windowCaption) {
+        Window subWindow = new Window(windowCaption);
         VerticalLayout subContent = new VerticalLayout();
         subContent.setMargin(true);
         subWindow.setContent(subContent);
@@ -62,14 +67,7 @@ public class PopupCombobox<RI extends IReferenceItem> extends HorizontalLayout i
         // Create the table with a caption.
         final Table table = new Table();
 
-        // Define the names and data types of columns.
-        // The "default value" parameter is meaningless here.
-        table.addContainerProperty("Code",         String.class,  null);
-        table.addContainerProperty("DisplayName",  String.class,  null);
-
-        for (RI item : referenceItems) {
-            table.addItem(new Object[] { item.getCode(), item.getDisplayName() }, item);
-        }
+        fillTable(table, referenceItems);
 
         table.setSelectable(true);
         table.setImmediate(true);
@@ -78,24 +76,24 @@ public class PopupCombobox<RI extends IReferenceItem> extends HorizontalLayout i
             @Override
             public void valueChange(Property.ValueChangeEvent valueChangeEvent) {
                 subWindow.close();
-                selectedItemLabel.setCaption(((RI)table.getValue()).getDisplayName());
+                selectedItemLabel.setCaption(getCaption((T) table.getValue()));
             }
         });
         return table;
     }
 
-    public void setSelectedItem(RI selectedItem) {
-        selectedItemLabel.setCaption(table.getValue() == null ? "" : ((RI) table.getValue()).getDisplayName());
+    public void setSelectedItem(T selectedItem) {
+        selectedItemLabel.setCaption(table.getValue() == null ? "" : getCaption((T) table.getValue()));
     }
 
     @Override
-    public RI getV() throws MalformedInputException {
-        return (RI) table.getValue();
+    public T getV() throws MalformedInputException {
+        return (T) table.getValue();
     }
 
     @Override
-    public void setV(RI item) {
+    public void setV(T item) {
         table.setValue(item);
-        selectedItemLabel.setCaption(item.getDisplayName());
+        selectedItemLabel.setCaption(getCaption(item));
     }
 }

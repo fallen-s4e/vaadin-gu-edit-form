@@ -10,7 +10,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import uk.co.innoforce.component.IComponent;
 import uk.co.innoforce.component.IVaadinComponent;
-import uk.co.innoforce.component.PopupCombobox;
+import uk.co.innoforce.component.VaadinReferenceItemPicker;
 import uk.co.innoforce.component.editors.VaadinStringEditor;
 import uk.co.innoforce.model.ConcreteReferenceItem;
 
@@ -51,7 +51,7 @@ public class MyVaadinUI extends UI
         for (int i = 0; i < items.length; i++) {
             items[i] = new ConcreteReferenceItem("name" + i, "value" + i);
         }
-        final IVaadinComponent tf = new PopupCombobox(items);
+        final IVaadinComponent tf = new VaadinReferenceItemPicker("Ref data selector table", items);
 
         // And bind the field
         layout.addComponent(tf);
