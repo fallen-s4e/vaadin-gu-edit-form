@@ -1,4 +1,4 @@
-package uk.co.innoforce.model;
+package uk.co.innoforce;
 
 import com.vaadin.ui.VerticalLayout;
 import kz.innoforce.form.rendition.components.IVaadinComponent;

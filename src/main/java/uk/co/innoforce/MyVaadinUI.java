@@ -14,7 +14,6 @@ import kz.innoforce.isgp.form.info.AbstractField;
 import kz.innoforce.isgp.form.info.Field;
 import kz.innoforce.isgp.form.info.Form;
 import kz.innoforce.isgp.form.values.*;
-import uk.co.innoforce.model.FECreator;
 
 import javax.servlet.annotation.WebServlet;
 import java.util.Arrays;
