@@ -6,7 +6,7 @@ import java.util.Date;
  * @author fallen
  * @since 7/28/14 3:56 PM
  */
-public class ConcreteReferenceItem implements IReferenceItem {
+public class ConcreteReferenceItem implements IReferenceItem{
     private String name;
     private String value;
 

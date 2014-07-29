@@ -42,6 +42,7 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
+        <!-- commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -51,6 +52,23 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
+        </dependency>
+
+        <!--isgp -->
+        <dependency>
+            <groupId>kz.innoforce.form</groupId>
+            <artifactId>model</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>kz.innoforce.form</groupId>
+            <artifactId>rendition-creator</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>kz.innoforce.isgp</groupId>
+            <artifactId>ISGP-NSI</artifactId>
+            <version>0.5</version>
         </dependency>
 
         <dependency>

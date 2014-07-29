@@ -8,17 +8,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import uk.co.innoforce.component.IComponent;
-import uk.co.innoforce.component.IVaadinComponent;
-import uk.co.innoforce.component.editors.VaadinReferenceItemPicker;
-import uk.co.innoforce.component.editors.VaadinStringEditor;
-import uk.co.innoforce.model.ConcreteReferenceItem;
+import kz.innoforce.form.rendition.components.IVaadinComponent;
+import kz.innoforce.form.rendition.components.editors.VaadinStringEditor;
+import kz.innoforce.isgp.form.info.AbstractField;
+import kz.innoforce.isgp.form.info.Field;
+import kz.innoforce.isgp.form.info.Form;
+import kz.innoforce.isgp.form.values.*;
+import uk.co.innoforce.model.FECreator;
 
 import javax.servlet.annotation.WebServlet;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Date;
+import java.util.Arrays;
 
 @Theme("mytheme")
 @SuppressWarnings("serial")
@@ -32,12 +31,6 @@ public class MyVaadinUI extends UI
 
     @Override
     protected void init(VaadinRequest request) {
-        // types:
-        Date date = null;
-        XMLGregorianCalendar dateTime = null;
-        BigDecimal bd = null;
-        BigInteger integer = null;
-
         final VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         setContent(layout);
@@ -46,12 +39,48 @@ public class MyVaadinUI extends UI
 
         //---------------------------------------------------------------------------
 
-        final int n = 25;
-        ConcreteReferenceItem[] items = new ConcreteReferenceItem[n];
-        for (int i = 0; i < items.length; i++) {
-            items[i] = new ConcreteReferenceItem("name" + i, "value" + i);
-        }
-        final IVaadinComponent tf = new VaadinReferenceItemPicker("Ref data selector table", items);
+        kz.innoforce.isgp.form.info.Form form = new Form(){{
+            setFields(Arrays.asList(
+                    (AbstractField)new Field() {{
+                        setName("f1");
+                        setValue(new IntegerSimpleValue());
+                    }},
+                    new Field() {{
+                        setName("f2");
+                        setValue(new DecimalSimpleValue());
+                    }},
+                    new Field() {{
+                        setName("f3");
+                        setValue(new DateSimpleValue());
+                    }},
+                    new Field() {{
+                        setName("f4");
+                        setValue(new DateTimeSimpleValue());
+                    }},
+                    new Field() {{
+                        setName("f5");
+                        setValue(new StringSimpleValue());
+                    }}
+
+                    /*
+                    // for future testing
+                    new Field() {{
+                        final int n = 25;
+                        ConcreteReferenceItem[] items = new ConcreteReferenceItem[n];
+                        for (int i = 0; i < items.length; i++) {
+                            items[i] = new ConcreteReferenceItem("name" + i, "value" + i);
+                        }
+                        final IVaadinComponent tf = new VaadinReferenceItemPicker("Ref data selector table", items);
+
+
+                        setName("fXXX");
+                        setValue(new StringSimpleValue());
+                    }}
+                    */
+            ));
+        }};
+
+        final IVaadinComponent tf = new FECreator(form);
 
         // And bind the field
         layout.addComponent(tf);
@@ -62,10 +91,8 @@ public class MyVaadinUI extends UI
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
                 try {
-                    label.setValue(String.format("textfield: getV = '%s'",
-                            tf.getV()
-                    ));
-                } catch (IComponent.MalformedInputException e) {
+                    label.setValue(String.format("sup"));
+                } catch (Exception e) {
                     label.setValue("error occurred with name");
                 }
             }
