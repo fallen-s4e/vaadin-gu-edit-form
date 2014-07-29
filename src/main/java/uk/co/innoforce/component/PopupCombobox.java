@@ -3,8 +3,10 @@ package uk.co.innoforce.component;
 import com.vaadin.data.Property;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,8 +32,15 @@ public abstract class PopupCombobox<T> extends HorizontalLayout implements IVaad
         addComponent(selectedItemTextField);
 
         // button
-        Button button = new Button();
-        button.setIcon(new ThemeResource("icons/search.gif"));
+        final Button button = new Button();
+        addAttachListener(new AttachListener() {
+            @Override
+            public void attach(AttachEvent attachEvent) {
+                if (getUI() != null) {
+                    setIcon(button, "icons/search1.gif", "select!");
+                }
+            }
+        });
 
         addComponent(button);
         button.addClickListener(new Button.ClickListener() {
@@ -40,6 +49,16 @@ public abstract class PopupCombobox<T> extends HorizontalLayout implements IVaad
                 getUI().addWindow(createSubWindow(windowCaption));
             }
         });
+    }
+
+    private void setIcon(Button button, String r, String altName) {
+        InputStream s = getUI().getSession().getService().getThemeResourceAsStream(getUI(), getUI().getTheme(), r);
+        if(s != null) {
+            IOUtils.closeQuietly(s);
+            button.setIcon(new ThemeResource(r));
+        } else {
+            button.setCaption(altName);
+        }
     }
 
     /**
