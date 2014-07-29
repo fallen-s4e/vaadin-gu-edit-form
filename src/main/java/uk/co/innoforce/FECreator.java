@@ -45,7 +45,7 @@ public class FECreator extends VerticalLayout
     }
 
     private IExpandableContainer createNewContainer() {
-        return new ExpandableContainerSO();
+        return new ExpandableContainer();
     }
 
     private void addField(IExpandableContainer componentToAddTo, Queue<Field> fields) {
