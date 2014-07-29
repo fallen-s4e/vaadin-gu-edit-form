@@ -9,8 +9,10 @@ import kz.innoforce.isgp.form.info.FieldGroup;
 import kz.innoforce.isgp.form.info.Form;
 import kz.innoforce.isgp.form.values.component.ComponentAccess;
 
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * @author fallen
@@ -25,28 +27,35 @@ public class FECreator extends VerticalLayout
 
     private void addFields(IExpandableContainer container, List<AbstractField> fields) {
         if (fields != null) {
-            // Create an empty tab sheet.
+            Queue<Field> queue = new ArrayDeque<>();
             for (AbstractField aField : fields) {
                 if (aField instanceof FieldGroup) {
+                    addField(container, queue);
                     IExpandableContainer newContainer = new ExpandableContainerSO();
                     addFields(newContainer, ((FieldGroup)aField).getFields());
                     container.addComponent(newContainer);
                 } else {
-                    addField(container, (Field) aField);
+                    queue.add((Field) aField);
                 }
             }
-
+            addField(container, queue);
         }
     }
 
-    private void addField(IExpandableContainer componentToAddTo, Field field) {
-        // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
-        IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
-                ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
-        componentToAddTo.addComponent(new HorizontalLayout(
-                new Label(field.getDisplayedName()),
-                editor
-        ));
+    private void addField(IExpandableContainer componentToAddTo, Queue<Field> fields) {
+        if (fields.size() > 0) {
+
+            while (fields.size() > 0) {
+                Field field = fields.poll();
+                // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
+                IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
+                        ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
+                componentToAddTo.addComponent(new HorizontalLayout(
+                        new Label(field.getDisplayedName()),
+                        editor
+                ));
+            }
+        }
     }
 
     @Override
