@@ -124,14 +124,14 @@ public class MyVaadinUI extends UI
 
     private Field createDateTimeField() {
         return new Field() {{
-            setDisplayedName("f4");
+            setDisplayedName("f4_______________");
             setValue(new DateTimeSimpleValue());
         }};
     }
 
     private Field createDateField() {
         return new Field() {{
-            setDisplayedName("f3");
+            setDisplayedName("f3______________");
             setValue(new DateSimpleValue());
         }};
     }

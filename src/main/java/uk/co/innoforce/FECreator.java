@@ -19,10 +19,12 @@ import java.util.Queue;
  * @since 7/29/14 11:16 AM
  */
 public class FECreator extends VerticalLayout
-        implements IVaadinComponent<Map>, IExpandableContainer {
+        implements IVaadinComponent<Map> {
 
     public FECreator(Form form) {
-        addFields(this, form.getFields());
+        IExpandableContainer newContainer = createNewContainer();
+        addFields(newContainer, form.getFields());
+        addComponent(newContainer);
     }
 
     private void addFields(IExpandableContainer container, List<AbstractField> fields) {
@@ -31,7 +33,7 @@ public class FECreator extends VerticalLayout
             for (AbstractField aField : fields) {
                 if (aField instanceof FieldGroup) {
                     addField(container, queue);
-                    IExpandableContainer newContainer = new ExpandableContainerSO();
+                    IExpandableContainer newContainer = createNewContainer();
                     addFields(newContainer, ((FieldGroup)aField).getFields());
                     container.addComponent(newContainer);
                 } else {
@@ -42,19 +44,35 @@ public class FECreator extends VerticalLayout
         }
     }
 
+    private IExpandableContainer createNewContainer() {
+        return new ExpandableContainerSO();
+    }
+
     private void addField(IExpandableContainer componentToAddTo, Queue<Field> fields) {
         if (fields.size() > 0) {
 
+            final GridLayout grid = new GridLayout(2, fields.size());
             while (fields.size() > 0) {
-                Field field = fields.poll();
+                final Field field = fields.poll();
                 // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
-                IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
+                final IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
                         ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
-                componentToAddTo.addComponent(new HorizontalLayout(
-                        new Label(field.getDisplayedName()),
-                        editor
-                ));
+
+                final VerticalLayout l1 = new VerticalLayout(){{
+                    addComponent(new Label(field.getDisplayedName()));
+                    setMargin(true);
+                }};
+                final VerticalLayout l2 = new VerticalLayout(){{
+                    addComponent(editor);
+                    setMargin(true);
+                }};
+                grid.addComponent(l1);
+                grid.addComponent(l2);
+                grid.setComponentAlignment(l1, Alignment.MIDDLE_LEFT);
+                grid.setComponentAlignment(l2, Alignment.MIDDLE_RIGHT);
             }
+            grid.setMargin(true);
+            componentToAddTo.addComponent(grid);
         }
     }
 
