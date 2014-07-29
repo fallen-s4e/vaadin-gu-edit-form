@@ -9,9 +9,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import kz.innoforce.form.rendition.components.IVaadinComponent;
-import kz.innoforce.form.rendition.components.editors.VaadinStringEditor;
 import kz.innoforce.isgp.form.info.AbstractField;
 import kz.innoforce.isgp.form.info.Field;
+import kz.innoforce.isgp.form.info.FieldGroup;
 import kz.innoforce.isgp.form.info.Form;
 import kz.innoforce.isgp.form.values.*;
 
@@ -34,50 +34,39 @@ public class MyVaadinUI extends UI
         layout.setMargin(true);
         setContent(layout);
 
-        layout.addComponent(new VaadinStringEditor());
-
         //---------------------------------------------------------------------------
 
         kz.innoforce.isgp.form.info.Form form = new Form(){{
             setFields(Arrays.asList(
-                    (AbstractField)new Field() {{
-                        setName("f1");
-                        setValue(new IntegerSimpleValue());
-                    }},
-                    new Field() {{
-                        setName("f2");
-                        setValue(new DecimalSimpleValue());
-                    }},
-                    new Field() {{
-                        setName("f3");
-                        setValue(new DateSimpleValue());
-                    }},
-                    new Field() {{
-                        setName("f4");
-                        setValue(new DateTimeSimpleValue());
-                    }},
-                    new Field() {{
-                        setName("f5");
-                        setValue(new StringSimpleValue());
-                    }}
-
-                    /*
-                    // for future testing
-                    new Field() {{
-                        final int n = 25;
-                        ConcreteReferenceItem[] items = new ConcreteReferenceItem[n];
-                        for (int i = 0; i < items.length; i++) {
-                            items[i] = new ConcreteReferenceItem("name" + i, "value" + i);
-                        }
-                        final IVaadinComponent tf = new VaadinReferenceItemPicker("Ref data selector table", items);
-
-
-                        setName("fXXX");
-                        setValue(new StringSimpleValue());
-                    }}
-                    */
+                    createIntegerField(),
+                    createFieldGroup(
+                            createDecimalField(),
+                            createDecimalField(),
+                            createDateTimeField()
+                    ),
+                    createFieldGroup(
+                            createDecimalField(),
+                            createDateField(),
+                            createDateTimeField(),
+                            createFieldGroup(
+                                    createFieldGroup(
+                                            createDecimalField(),
+                                            createDecimalField(),
+                                            createDateTimeField()
+                                    ),
+                                    createDateTimeField(),
+                                    createStringField(),
+                                    createRefItemField()
+                            )
+                    ),
+                    createDecimalField(),
+                    createDateField(),
+                    createDateTimeField(),
+                    createStringField(),
+                    createRefItemField()
             ));
-        }};
+        }
+        };
 
         final IVaadinComponent tf = new FECreator(form);
 
@@ -98,7 +87,66 @@ public class MyVaadinUI extends UI
         });
         layout.addComponent(button);
         layout.addComponent(label);
-
     }
 
+    private FieldGroup createFieldGroup(final AbstractField ... fieldsToGroup) {
+        return new FieldGroup() {{
+            setFields(Arrays.<AbstractField>asList(fieldsToGroup));
+        }};
+    }
+
+    private Field createRefItemField() {
+        return createStringField();
+        /*
+        // for future testing
+        new Field() {{
+            final int n = 25;
+            ConcreteReferenceItem[] items = new ConcreteReferenceItem[n];
+            for (int i = 0; i < items.length; i++) {
+                items[i] = new ConcreteReferenceItem("name" + i, "value" + i);
+            }
+            final IVaadinComponent tf = new VaadinReferenceItemPicker("Ref data selector table", items);
+
+
+            setName("fXXX");
+            setValue(new StringSimpleValue());
+        }}
+        */
+    }
+
+
+    private Field createStringField() {
+        return new Field() {{
+            setDisplayedName("f5");
+            setValue(new StringSimpleValue());
+        }};
+    }
+
+    private Field createDateTimeField() {
+        return new Field() {{
+            setDisplayedName("f4");
+            setValue(new DateTimeSimpleValue());
+        }};
+    }
+
+    private Field createDateField() {
+        return new Field() {{
+            setDisplayedName("f3");
+            setValue(new DateSimpleValue());
+        }};
+    }
+
+    private Field createDecimalField() {
+        return new Field() {{
+            setDisplayedName("f2.0.0");
+            setValue(new DecimalSimpleValue());
+        }};
+    }
+
+    private Field createIntegerField() {
+        return new Field() {{
+            setDisplayedName("f1");
+            setValue(new IntegerSimpleValue());
+        }};
+    }
 }

@@ -1,5 +1,7 @@
 package uk.co.innoforce;
 
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import kz.innoforce.form.rendition.components.IVaadinComponent;
 import kz.innoforce.form.rendition.components.VaadinComponentFactory;
@@ -29,15 +31,20 @@ public class FECreator extends VerticalLayout
                 if (aField instanceof FieldGroup) {
                     addFields(((FieldGroup)aField).getFields());
                 } else {
-                    Field field = (Field)aField;
-                    // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
-                    kz.innoforce.form.rendition.components.IVaadinComponent component =
-                            (kz.innoforce.form.rendition.components.IVaadinComponent) field.getValue().getComponent(
-                            ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
-                    addComponent(component);
+                    addField((Field) aField);
                 }
             }
         }
+    }
+
+    private void addField(Field field) {
+        // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
+        IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
+                ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
+        addComponent(new HorizontalLayout(
+                new Label(field.getDisplayedName()),
+                editor
+        ));
     }
 
     @Override
