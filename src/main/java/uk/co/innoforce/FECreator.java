@@ -1,8 +1,6 @@
 package uk.co.innoforce;
 
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import kz.innoforce.form.rendition.components.IVaadinComponent;
 import kz.innoforce.form.rendition.components.VaadinComponentFactory;
 import kz.innoforce.isgp.form.info.AbstractField;
@@ -19,29 +17,33 @@ import java.util.Map;
  * @since 7/29/14 11:16 AM
  */
 public class FECreator extends VerticalLayout
-        implements IVaadinComponent<Map> {
+        implements IVaadinComponent<Map>, IExpandableContainer {
 
     public FECreator(Form form) {
-        addFields(form.getFields());
+        addFields(this, form.getFields());
     }
 
-    private void addFields(List<AbstractField> fields) {
+    private void addFields(IExpandableContainer container, List<AbstractField> fields) {
         if (fields != null) {
+            // Create an empty tab sheet.
             for (AbstractField aField : fields) {
                 if (aField instanceof FieldGroup) {
-                    addFields(((FieldGroup)aField).getFields());
+                    IExpandableContainer newContainer = new ExpandableContainerSO();
+                    addFields(newContainer, ((FieldGroup)aField).getFields());
+                    container.addComponent(newContainer);
                 } else {
-                    addField((Field) aField);
+                    addField(container, (Field) aField);
                 }
             }
+
         }
     }
 
-    private void addField(Field field) {
+    private void addField(IExpandableContainer componentToAddTo, Field field) {
         // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
         IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
                 ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
-        addComponent(new HorizontalLayout(
+        componentToAddTo.addComponent(new HorizontalLayout(
                 new Label(field.getDisplayedName()),
                 editor
         ));
