@@ -1,6 +1,7 @@
-package uk.co.innoforce.component;
+package uk.co.innoforce.component.editors;
 
 import com.vaadin.ui.Table;
+import uk.co.innoforce.component.PopupCombobox;
 import uk.co.innoforce.model.IReferenceItem;
 
 import java.util.List;

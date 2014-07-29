@@ -10,7 +10,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import uk.co.innoforce.component.IComponent;
 import uk.co.innoforce.component.IVaadinComponent;
-import uk.co.innoforce.component.VaadinReferenceItemPicker;
+import uk.co.innoforce.component.editors.VaadinReferenceItemPicker;
 import uk.co.innoforce.component.editors.VaadinStringEditor;
 import uk.co.innoforce.model.ConcreteReferenceItem;
 
