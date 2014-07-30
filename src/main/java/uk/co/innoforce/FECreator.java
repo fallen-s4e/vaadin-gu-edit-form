@@ -21,14 +21,19 @@ import java.util.Queue;
 public class FECreator extends VerticalLayout
         implements IVaadinComponent<Map> {
 
+    private final Form form;
+
     public FECreator(Form form) {
-        IExpandableContainer newContainer = createNewContainer(
-                String.format("%s - %s", form.getFormNumber(), form.getFormSpec())
-        );
+        IExpandableContainer newContainer = createNewContainer(getHeader(form));
+        this.form = form;
         addFields(newContainer, form.getFields());
         addComponent(newContainer);
         newContainer.setHeight(400, Unit.PIXELS);
         newContainer.setWidth(700, Unit.PIXELS);
+    }
+
+    private static String getHeader(Form form) {
+        return String.format("%s - %s", form.getFormNumber(), form.getFormSpec());
     }
 
     public Window getAsWindow() {
@@ -38,6 +43,7 @@ public class FECreator extends VerticalLayout
             }});
             setModal(true);
             center();
+            setCaption(getHeader(form));
         }};
     }
 
