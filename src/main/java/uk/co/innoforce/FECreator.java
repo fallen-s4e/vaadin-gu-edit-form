@@ -23,15 +23,26 @@ public class FECreator extends VerticalLayout
 
     private final Form form;
     private final IRow row;
+    private final Button saveButton = new Button("save");
+    private final Button cancelButton = new Button("cancel");
 
     public FECreator(Form form, IRow row) {
-        IExpandableContainer newContainer = createNewContainer(getHeader(form));
         this.form = form;
         this.row = row;
+
+        addComponent(getInputComponentContainers(form));
+        addComponent(new HorizontalLayout() {{
+            addComponent(saveButton);
+            addComponent(cancelButton);
+        }});
+    }
+
+    private IExpandableContainer getInputComponentContainers(Form form) {
+        IExpandableContainer newContainer = createNewContainer(getHeader(form));
         addFields(newContainer, form.getFields());
-        addComponent(newContainer);
         newContainer.setHeight(400, Unit.PIXELS);
         newContainer.setWidth(700, Unit.PIXELS);
+        return newContainer;
     }
 
     private static String getHeader(Form form) {
@@ -46,6 +57,14 @@ public class FECreator extends VerticalLayout
             setModal(true);
             center();
             setCaption(getHeader(form));
+            Button.ClickListener cl = new Button.ClickListener() {
+                @Override
+                public void buttonClick(Button.ClickEvent clickEvent) {
+                    close();
+                }
+            };
+            saveButton.addClickListener(cl);
+            cancelButton.addClickListener(cl);
         }};
     }
 
