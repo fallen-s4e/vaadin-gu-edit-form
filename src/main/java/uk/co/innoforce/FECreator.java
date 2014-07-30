@@ -25,6 +25,8 @@ public class FECreator extends VerticalLayout
         IExpandableContainer newContainer = createNewContainer();
         addFields(newContainer, form.getFields());
         addComponent(newContainer);
+        newContainer.setHeight(400, Unit.PIXELS);
+        newContainer.setWidth(700, Unit.PIXELS);
     }
 
     private void addFields(IExpandableContainer container, List<AbstractField> fields) {

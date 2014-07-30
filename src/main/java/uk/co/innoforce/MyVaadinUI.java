@@ -4,10 +4,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import kz.innoforce.form.rendition.components.IVaadinComponent;
 import kz.innoforce.isgp.form.info.AbstractField;
 import kz.innoforce.isgp.form.info.Field;
@@ -70,8 +67,13 @@ public class MyVaadinUI extends UI
 
         final IVaadinComponent tf = new FECreator(form);
 
-        // And bind the field
-        layout.addComponent(tf);
+        getUI().addWindow(new Window() {{
+            setContent(new VerticalLayout() {{
+                addComponent(tf);
+            }});
+            setModal(true);
+            center();
+        }});
         //---------------------------------------------------------------------------
         final Label label = new Label("Feedback");
         final Button button = new Button("save");
@@ -117,35 +119,35 @@ public class MyVaadinUI extends UI
 
     private Field createStringField() {
         return new Field() {{
-            setDisplayedName("f5");
+            setDisplayedName("Какая-то строка");
             setValue(new StringSimpleValue());
         }};
     }
 
     private Field createDateTimeField() {
         return new Field() {{
-            setDisplayedName("f4_______________");
+            setDisplayedName("Какое-то дата и время");
             setValue(new DateTimeSimpleValue());
         }};
     }
 
     private Field createDateField() {
         return new Field() {{
-            setDisplayedName("f3______________");
+            setDisplayedName("Какая-то дата");
             setValue(new DateSimpleValue());
         }};
     }
 
     private Field createDecimalField() {
         return new Field() {{
-            setDisplayedName("f2.0.0");
+            setDisplayedName("Какое-то дробное значение");
             setValue(new DecimalSimpleValue());
         }};
     }
 
     private Field createIntegerField() {
         return new Field() {{
-            setDisplayedName("f1");
+            setDisplayedName("Какое-то целое значение");
             setValue(new IntegerSimpleValue());
         }};
     }
