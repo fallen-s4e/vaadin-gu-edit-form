@@ -68,7 +68,6 @@ public class MyVaadinUI extends UI
             ));
         }
         };
-
         getUI().addWindow(new FECreator(form).getAsWindow());
 
         //---------------------------------------------------------------------------
@@ -115,38 +114,30 @@ public class MyVaadinUI extends UI
     }
 
 
-    private Field createStringField() {
+    private Field createField(final String dispName, final AbstractValue av) {
         return new Field() {{
-            setDisplayedName("Какая-то строка");
-            setValue(new StringSimpleValue());
+            setDisplayedName(dispName);
+            setValue(av);
         }};
+    }
+
+    private Field createStringField() {
+        return createField("Какая-то строка", new StringSimpleValue());
     }
 
     private Field createDateTimeField() {
-        return new Field() {{
-            setDisplayedName("Какое-то дата и время");
-            setValue(new DateTimeSimpleValue());
-        }};
+        return createField("Какое-то дата и время", new DateTimeSimpleValue());
     }
 
     private Field createDateField() {
-        return new Field() {{
-            setDisplayedName("Какая-то дата");
-            setValue(new DateSimpleValue());
-        }};
+        return createField("Какая-то дата", new DateSimpleValue());
     }
 
     private Field createDecimalField() {
-        return new Field() {{
-            setDisplayedName("Какое-то дробное значение");
-            setValue(new DecimalSimpleValue());
-        }};
+        return createField("Какое-то дробное значение", new DecimalSimpleValue());
     }
 
     private Field createIntegerField() {
-        return new Field() {{
-            setDisplayedName("Какое-то целое значение");
-            setValue(new IntegerSimpleValue());
-        }};
+        return createField("Какое-то целое значение", new IntegerSimpleValue());
     }
 }
