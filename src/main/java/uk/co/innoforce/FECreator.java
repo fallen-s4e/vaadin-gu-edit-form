@@ -22,7 +22,9 @@ public class FECreator extends VerticalLayout
         implements IVaadinComponent<Map> {
 
     public FECreator(Form form) {
-        IExpandableContainer newContainer = createNewContainer();
+        IExpandableContainer newContainer = createNewContainer(
+                String.format("%s - %s", form.getFormNumber(), form.getFormSpec())
+        );
         addFields(newContainer, form.getFields());
         addComponent(newContainer);
         newContainer.setHeight(400, Unit.PIXELS);
@@ -34,9 +36,10 @@ public class FECreator extends VerticalLayout
             Queue<Field> queue = new ArrayDeque<>();
             for (AbstractField aField : fields) {
                 if (aField instanceof FieldGroup) {
+                    FieldGroup grp = (FieldGroup) aField;
                     addField(container, queue);
-                    IExpandableContainer newContainer = createNewContainer();
-                    addFields(newContainer, ((FieldGroup)aField).getFields());
+                    IExpandableContainer newContainer = createNewContainer(grp.getDisplayedName());
+                    addFields(newContainer, grp.getFields());
                     container.addComponent(newContainer);
                 } else {
                     queue.add((Field) aField);
@@ -46,8 +49,8 @@ public class FECreator extends VerticalLayout
         }
     }
 
-    private IExpandableContainer createNewContainer() {
-        return new ExpandableContainer();
+    private IExpandableContainer createNewContainer(String sectionName) {
+        return new ExpandableContainer(sectionName);
     }
 
     private void addField(IExpandableContainer componentToAddTo, Queue<Field> fields) {

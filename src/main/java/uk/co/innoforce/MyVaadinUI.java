@@ -34,19 +34,21 @@ public class MyVaadinUI extends UI
         //---------------------------------------------------------------------------
 
         kz.innoforce.isgp.form.info.Form form = new Form(){{
+            setFormNumber("Form1");
+            setFormSpec("Spec1");
             setFields(Arrays.asList(
                     createIntegerField(),
-                    createFieldGroup(
+                    createFieldGroup("group 1",
                             createDecimalField(),
                             createDecimalField(),
                             createDateTimeField()
                     ),
-                    createFieldGroup(
+                    createFieldGroup("group 2",
                             createDecimalField(),
                             createDateField(),
                             createDateTimeField(),
-                            createFieldGroup(
-                                    createFieldGroup(
+                            createFieldGroup("group 2.1",
+                                    createFieldGroup("group 2.1.1",
                                             createDecimalField(),
                                             createDecimalField(),
                                             createDateTimeField()
@@ -91,9 +93,10 @@ public class MyVaadinUI extends UI
         layout.addComponent(label);
     }
 
-    private FieldGroup createFieldGroup(final AbstractField ... fieldsToGroup) {
+    private FieldGroup createFieldGroup(final String nameToDisplay, final AbstractField ... fieldsToGroup) {
         return new FieldGroup() {{
             setFields(Arrays.<AbstractField>asList(fieldsToGroup));
+            setDisplayedName(nameToDisplay);
         }};
     }
 

@@ -9,11 +9,12 @@ import com.vaadin.ui.*;
 public class ExpandableContainer extends Panel implements IExpandableContainer {
 
     private final VerticalLayout contentPane = new VerticalLayout();
-    private final Component label = new Label("<...>") {{
-        setVisible(false);
-    }};
+    private final Component label;
 
-    public ExpandableContainer() {
+    public ExpandableContainer(String sectionName) {
+        label = new Label(sectionName) {{
+            setVisible(false);
+        }};
         final GridLayout gl = new GridLayout(2,2);
         gl.addComponent(new Button("-") {{
             addClickListener(new ClickListener() {
