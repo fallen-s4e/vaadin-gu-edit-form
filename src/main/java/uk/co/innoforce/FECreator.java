@@ -22,10 +22,12 @@ public class FECreator extends VerticalLayout
         implements IVaadinComponent<Map> {
 
     private final Form form;
+    private final IRow row;
 
-    public FECreator(Form form) {
+    public FECreator(Form form, IRow row) {
         IExpandableContainer newContainer = createNewContainer(getHeader(form));
         this.form = form;
+        this.row = row;
         addFields(newContainer, form.getFields());
         addComponent(newContainer);
         newContainer.setHeight(400, Unit.PIXELS);
@@ -78,6 +80,9 @@ public class FECreator extends VerticalLayout
                 // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
                 final IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
                         ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
+
+                // setting value
+                editor.setV(row.get(field.getName()));
 
                 final VerticalLayout l1 = new VerticalLayout(){{
                     addComponent(new Label(field.getDisplayedName()));

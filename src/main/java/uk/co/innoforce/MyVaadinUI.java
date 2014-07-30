@@ -8,7 +8,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import kz.innoforce.isgp.form.info.Form;
 import uk.co.innoforce.mockers.DummyFormFactory;
+import uk.co.innoforce.mockers.DummyIRowFactory;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -30,7 +32,8 @@ public class MyVaadinUI extends UI
 
         //---------------------------------------------------------------------------
 
-        getUI().addWindow(new FECreator(DummyFormFactory.createDummyForm()).getAsWindow());
+        Form form = DummyFormFactory.createDummyForm();
+        getUI().addWindow(new FECreator(form, DummyIRowFactory.createDummyIRow(form)).getAsWindow());
 
         //---------------------------------------------------------------------------
         final Label label = new Label("Feedback");
