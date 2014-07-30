@@ -31,6 +31,16 @@ public class FECreator extends VerticalLayout
         newContainer.setWidth(700, Unit.PIXELS);
     }
 
+    public Window getAsWindow() {
+        return new Window() {{
+            setContent(new VerticalLayout() {{
+                addComponent(FECreator.this);
+            }});
+            setModal(true);
+            center();
+        }};
+    }
+
     private void addFields(IExpandableContainer container, List<AbstractField> fields) {
         if (fields != null) {
             Queue<Field> queue = new ArrayDeque<>();

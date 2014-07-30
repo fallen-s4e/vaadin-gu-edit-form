@@ -4,8 +4,10 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.*;
-import kz.innoforce.form.rendition.components.IVaadinComponent;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import kz.innoforce.isgp.form.info.AbstractField;
 import kz.innoforce.isgp.form.info.Field;
 import kz.innoforce.isgp.form.info.FieldGroup;
@@ -67,15 +69,8 @@ public class MyVaadinUI extends UI
         }
         };
 
-        final IVaadinComponent tf = new FECreator(form);
+        getUI().addWindow(new FECreator(form).getAsWindow());
 
-        getUI().addWindow(new Window() {{
-            setContent(new VerticalLayout() {{
-                addComponent(tf);
-            }});
-            setModal(true);
-            center();
-        }});
         //---------------------------------------------------------------------------
         final Label label = new Label("Feedback");
         final Button button = new Button("save");
