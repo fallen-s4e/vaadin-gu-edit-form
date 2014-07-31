@@ -1,4 +1,4 @@
-package uk.co.innoforce;
+package uk.co.innoforce.components;
 
 import com.vaadin.ui.*;
 import kz.innoforce.form.rendition.components.IVaadinComponent;

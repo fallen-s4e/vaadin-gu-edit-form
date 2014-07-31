@@ -1,4 +1,4 @@
-package uk.co.innoforce;
+package uk.co.innoforce.components;
 
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;

@@ -4,7 +4,7 @@ import kz.innoforce.isgp.form.info.AbstractField;
 import kz.innoforce.isgp.form.info.Field;
 import kz.innoforce.isgp.form.info.FieldGroup;
 import kz.innoforce.isgp.form.info.Form;
-import uk.co.innoforce.IRow;
+import uk.co.innoforce.components.IRow;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -16,12 +16,11 @@ import java.util.List;
  */
 public class DummyIRowFactory {
     public static IRow createDummyIRow(final Form form) {
-        return new IRow() {
-            LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-
+        abstract class IRowIpl extends LinkedHashMap<String, Object> implements IRow {};
+        return new IRowIpl() {
             {
                 for (Field field : flattenFields(new ArrayList<Field>(), form.getFields())) {
-                    map.put(field.getName(), field.getValue().getValue(null, field.getName()));
+                    put(field.getName(), field.getValue().getValue(null, field.getName()));
                 }
             }
 
@@ -38,12 +37,7 @@ public class DummyIRowFactory {
 
             @Override
             public Object get(String str) {
-                return map.get(str);
-            }
-
-            @Override
-            public void set(String str, Object obj) {
-                map.put(str, obj);
+                return get((Object)str);
             }
         };
     }
