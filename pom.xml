@@ -57,12 +57,12 @@
         <!--isgp -->
         <dependency>
             <groupId>kz.innoforce.form</groupId>
-            <artifactId>model</artifactId>
+            <artifactId>isgp-fb-model</artifactId>
             <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>kz.innoforce.form</groupId>
-            <artifactId>rendition-creator</artifactId>
+            <artifactId>isgp-fb-rendition-creator</artifactId>
             <version>0.1</version>
         </dependency>
 

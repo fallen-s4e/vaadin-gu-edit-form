@@ -1,6 +1,6 @@
 package uk.co.innoforce.model;
 
-import kz.innoforce.isgp.nsi.interfaces.IReferenceItem;
+import kz.innoforce.isgp.nsi.items.IReferenceItem;
 
 import java.util.Date;
 
