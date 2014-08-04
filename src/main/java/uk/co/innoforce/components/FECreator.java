@@ -8,23 +8,50 @@ import kz.innoforce.isgp.form.info.Field;
 import kz.innoforce.isgp.form.info.FieldGroup;
 import kz.innoforce.isgp.form.info.Form;
 import kz.innoforce.isgp.form.values.component.ComponentAccess;
+import kz.innoforce.isgp.form.values.component.IComponent;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * @author fallen
  * @since 7/29/14 11:16 AM
  */
-public class FECreator extends VerticalLayout
-        implements IVaadinComponent<Map> {
+public class FECreator extends VerticalLayout {
 
     private final Form form;
     private final IRow row;
     private final Button saveButton = new Button("save");
     private final Button cancelButton = new Button("cancel");
+    private final Map<String, IVaadinComponent> components = new HashMap<>();
+
+    private static class FECreeatorModel {
+        private static Boolean saveToRow(Map<String, IVaadinComponent> components, IRow row,
+                                      Function<String, Void> onValidationError) {
+            try {
+                Map<String, Object> v = getValuesAndValidate(components);
+                for (String key : v.keySet()) {
+                    row.put(key, v.get(key));
+                }
+                return true;
+            } catch (IComponent.MalformedInputException e) {
+                onValidationError.apply(e.getMessage());
+            } catch (Exception e) {
+                onValidationError.apply("внутренняя ошибка: " + e.getMessage());
+            }
+            return false;
+        }
+
+        private static Map<String, Object> getValuesAndValidate(Map<String, IVaadinComponent> components)
+                throws IComponent.MalformedInputException {
+            Map<String, Object> map = new HashMap<>();
+            for (String key : components.keySet()) {
+                IVaadinComponent iVaadinComponent = components.get(key);
+                map.put(key, iVaadinComponent.getV());
+            }
+            return map;
+        }
+    }
 
     public FECreator(Form form, IRow row) {
         this.form = form;
@@ -35,6 +62,22 @@ public class FECreator extends VerticalLayout
             addComponent(saveButton);
             addComponent(cancelButton);
         }});
+
+        saveButton.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                Function<String, Void> onError = new Function<String, Void>() {
+                    @Override
+                    public Void apply(String error) {
+                        Notification.show("Ошибка", error, Notification.Type.WARNING_MESSAGE);
+                        return null;
+                    }
+                };
+                if (!FECreeatorModel.saveToRow(components, row, onError)) {
+
+                }
+            }
+        });
     }
 
     private IExpandableContainer getInputComponentContainers(Form form) {
@@ -97,8 +140,7 @@ public class FECreator extends VerticalLayout
             while (fields.size() > 0) {
                 final Field field = fields.poll();
                 // I believe there is no way to avoid this cast, b/c java does not support generics of higher kind
-                final IVaadinComponent editor = (IVaadinComponent) field.getValue().getComponent(
-                        ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
+                final IVaadinComponent editor = getIVaadinComponent(field);
 
                 // setting value
                 editor.setV(row.get(field.getName()));
@@ -121,13 +163,13 @@ public class FECreator extends VerticalLayout
         }
     }
 
-    @Override
-    public Map getV() throws MalformedInputException {
-        return null;
-    }
-
-    @Override
-    public void setV(Map map) {
-
+    /**
+     * creates a new component and adds it to list 'components'
+     */
+    private IVaadinComponent getIVaadinComponent(Field field) {
+        IVaadinComponent component = (IVaadinComponent) field.getValue().getComponent(
+                ComponentAccess.EDIT, VaadinComponentFactory.getInstance(), field.getDisplayedName());
+        components.put(field.getName(), component);
+        return component;
     }
 }

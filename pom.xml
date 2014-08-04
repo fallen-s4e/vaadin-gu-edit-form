@@ -65,11 +65,6 @@
             <artifactId>rendition-creator</artifactId>
             <version>0.1</version>
         </dependency>
-        <dependency>
-            <groupId>kz.innoforce.isgp</groupId>
-            <artifactId>ISGP-NSI</artifactId>
-            <version>0.5</version>
-        </dependency>
 
         <dependency>
 			<groupId>com.vaadin</groupId>
