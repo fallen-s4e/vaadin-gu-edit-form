@@ -1,1 +1,3 @@
-*cache.js
+.idea/
+target/
+*.iml
